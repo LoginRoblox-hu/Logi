@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0d0d0d;
+    }
+    .thin-x {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+    .thin-x::before,
+    .thin-x::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 2px;
+      height: 24px;
+      background-color: white;
+      transform-origin: center;
+      border-radius: 1px;
+    }
+    .thin-x::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    .thin-x::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col text-white">
+  <!-- Main container to manage the login flow steps -->
+  <div class="max-w-md w-full mx-auto p-5 flex flex-col gap-6">
+
+    <!-- Username/Email Step -->
+    <div id="username-step" class="fade-in">
+      <div class="flex items-center justify-start relative">
+        <button aria-label="Close" class="thin-x"></button>
+        <h1 class="absolute left-0 right-0 mx-auto text-center font-semibold text-[20px] leading-[24px] pointer-events-none select-none">
+          Log in
+        </h1>
+      </div>
+
+      <form class="flex flex-col gap-3 mt-6">
+        <label for="user" class="text-[#e1e1e1] text-[16px] font-normal leading-[28px]">
+          Nama pengguna, alamat email, atau nomor ponsel
+        </label>
+        <input
+          id="user"
+          type="text"
+          class="bg-[#1a1a1a] border border-[#2c2c2c] rounded-xl py-3 px-4 text-white text-[16px] leading-[24px] placeholder:text-[#666666] focus:outline-none focus:ring-2 focus:ring-[#2c2c2c]"
+          placeholder=""
+          autocomplete="username"
+        />
+        <button
+          id="continue-username"
+          type="submit"
+          disabled
+          class="bg-[#2c3a8c] text-[#8a95bf] font-semibold text-[16px] leading-[24px] rounded-xl py-3 mt-1 cursor-not-allowed"
+        >
+          Lanjutkan
+        </button>
+      </form>
+
+      <p class="text-center text-[#d1d1d1] text-[14px] font-normal leading-[20px] mt-6">Lupa nama pengguna?</p>
+
+      <p class="text-center text-[#e1e1e1] text-[16px] font-semibold leading-[24px] select-none mt-6">ATAU</p>
+
+      <button
+        type="button"
+        class="flex items-center justify-center gap-3 border border-[#2c2c2c] rounded-xl py-3 text-[#b0b3b8] font-semibold text-[16px] leading-[24px] w-full mt-3"
+      >
+        <i class="fas fa-key text-[#b0b3b8] text-[18px]"></i>
+        Gunakan Passkey
+      </button>
+
+      <button
+        type="button"
+        class="flex items-center justify-center gap-3 border border-[#2c2c2c] rounded-xl py-3 text-[#b0b3b8] font-semibold text-[16px] leading-[24px] w-full mt-3"
+      >
+        <i class="fas fa-th-large text-[#b0b3b8] text-[18px]"></i>
+        Log in cepat
+      </button>
+    </div>
+
+    <!-- Password Step (initially hidden) -->
+    <div id="password-step" class="hidden fade-in w-full">
+      <header class="flex items-center">
+        <button id="back-button" aria-label="Back" class="text-white text-2xl pr-4">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <h1 class="flex-grow text-center font-bold text-lg leading-6">
+          Log in
+        </h1>
+        <div class="w-8"></div>
+      </header>
+      <main class="flex flex-col items-center mt-6">
+        <form class="w-full mt-6">
+          <label class="block text-white text-base mb-1" for="password">
+            Password
+          </label>
+          <div class="relative">
+            <input
+              autocomplete="current-password"
+              class="w-full rounded-lg border border-[#2c2c2c] bg-transparent px-4 py-3 pr-12 text-white placeholder:text-white focus:outline-none focus:ring-1 focus:ring-[#c3c6ff]"
+              id="password"
+              placeholder=""
+              type="password"
+            />
+            <button
+              id="toggle-password"
+              aria-label="Toggle password visibility"
+              class="absolute inset-y-0 right-3 flex items-center text-white text-lg"
+              type="button"
+            >
+              <i class="fas fa-eye-slash"></i>
+            </button>
+          </div>
+          <button
+            id="continue-password"
+            disabled
+            class="mt-6 w-full bg-[#2a3a8c] text-[#7a8bc9] font-semibold rounded-lg py-3 cursor-not-allowed"
+            type="submit"
+          >
+            Lanjutkan
+          </button>
+        </form>
+        <button aria-label="Forgot password" class="mt-6 text-white text-sm leading-5" type="button">
+          Lupa kata sandi?
+        </button>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Get all the necessary elements from the DOM
+    const usernameStep = document.getElementById('username-step');
+    const passwordStep = document.getElementById('password-step');
+    const userInput = document.getElementById('user');
+    const passwordInput = document.getElementById('password');
+    const continueUsernameBtn = document.getElementById('continue-username');
+    const continuePasswordBtn = document.getElementById('continue-password');
+    const backButton = document.getElementById('back-button');
+    const togglePasswordBtn = document.getElementById('toggle-password');
+
+    // Function to handle the transition to the password step
+    function showPasswordStep() {
+      usernameStep.classList.add('hidden');
+      passwordStep.classList.remove('hidden');
+      // Add a fade-in animation class to the new step
+      passwordStep.classList.add('fade-in');
+    }
+
+    // Function to handle the transition back to the username step
+    function showUsernameStep() {
+      passwordStep.classList.add('hidden');
+      usernameStep.classList.remove('hidden');
+      // Add a fade-in animation class to the new step
+      usernameStep.classList.add('fade-in');
+    }
+
+    // Enable/disable the "Lanjutkan" button for username input
+    userInput.addEventListener('input', () => {
+      if (userInput.value.trim().length > 0) {
+        continueUsernameBtn.disabled = false;
+        continueUsernameBtn.classList.remove('bg-[#2c3a8c]', 'text-[#8a95bf]', 'cursor-not-allowed');
+        continueUsernameBtn.classList.add('bg-[#5e6696]', 'text-white', 'cursor-pointer');
+      } else {
+        continueUsernameBtn.disabled = true;
+        continueUsernameBtn.classList.add('bg-[#2c3a8c]', 'text-[#8a95bf]', 'cursor-not-allowed');
+        continueUsernameBtn.classList.remove('bg-[#5e6696]', 'text-white', 'cursor-pointer');
+      }
+    });
+
+    // Handle click on the first "Lanjutkan" button
+    continueUsernameBtn.addEventListener('click', (event) => {
+      event.preventDefault(); // Prevent form submission
+      showPasswordStep();
+    });
+
+    // Handle click on the "Back" button
+    backButton.addEventListener('click', () => {
+      showUsernameStep();
+    });
+
+    // Enable/disable the "Lanjutkan" button for password input
+    passwordInput.addEventListener('input', () => {
+      if (passwordInput.value.trim().length > 0) {
+        continuePasswordBtn.disabled = false;
+        continuePasswordBtn.classList.remove('bg-[#2a3a8c]', 'text-[#7a8bc9]', 'cursor-not-allowed');
+        continuePasswordBtn.classList.add('bg-[#5e6696]', 'text-white', 'cursor-pointer');
+      } else {
+        continuePasswordBtn.disabled = true;
+        continuePasswordBtn.classList.add('bg-[#2a3a8c]', 'text-[#7a8bc9]', 'cursor-not-allowed');
+        continuePasswordBtn.classList.remove('bg-[#5e6696]', 'text-white', 'cursor-pointer');
+      }
+    });
+
+    // Toggle password visibility
+    togglePasswordBtn.addEventListener('click', () => {
+      const type = passwordInput.type === 'password' ? 'text' : 'password';
+      passwordInput.type = type;
+      const icon = togglePasswordBtn.querySelector('i');
+      if (type === 'text') {
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      } else {
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      }
+    });
+  </script>
+</body>
+</html>
